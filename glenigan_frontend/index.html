@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="gleniganApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glenigan Projects | Construction Insights</title>
+    <!-- AngularJS 1.8.2 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body ng-controller="ProjectController as ctrl">
+    <header>
+        <div class="container">
+            <h1 class="logo">GLENIGAN<span>PROJECTS</span></h1>
+            <div class="user-info">
+                <span>Senior Software Engineer Assessment</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <filter-panel 
+            filters="ctrl.filters" 
+            on-filter-change="ctrl.onFilterChange()" 
+            on-reset="ctrl.resetFilters()">
+        </filter-panel>
+
+        <results-header 
+            total-count="ctrl.metadata.total_count"
+            current-page="ctrl.page"
+            per-page="ctrl.perPage"
+            on-per-page-change="ctrl.onPerPageChange()"
+            loading="ctrl.loading">
+        </results-header>
+
+        <section class="projects-list">
+            <div class="loading" ng-if="ctrl.loading">
+                <div class="spinner"></div>
+                <p>Loading projects...</p>
+            </div>
+
+            <div class="no-results" ng-if="!ctrl.loading && ctrl.projects.length === 0">
+                <h3>No projects found</h3>
+                <p>Try adjusting your search or filters.</p>
+            </div>
+
+            <project-card 
+                ng-repeat="project in ctrl.projects" 
+                project="project">
+            </project-card>
+        </section>
+
+        <pagination-controls
+            metadata="ctrl.metadata"
+            current-page="ctrl.page"
+            loading="ctrl.loading"
+            on-go-to-page="ctrl.goToPage(page)">
+        </pagination-controls>
+    </main>
+
+
+    </main>
+
+    <script src="dist/app.js"></script>
+</body>
+</html>

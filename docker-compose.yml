@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./glenigan_backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - backend_data:/app/data
+    environment:
+      - DATABASE_PATH=/app/data/glenigan.db
+      - PORT=8000
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./glenigan_frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - BACKEND_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  backend_data:

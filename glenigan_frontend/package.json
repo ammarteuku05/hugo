@@ -1,0 +1,24 @@
+{
+  "name": "glenigan-frontend",
+  "version": "1.0.0",
+  "description": "Glenigan Project Service Frontend",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/angular": "^1.8.0",
+    "angular": "^1.8.2",
+    "angular-mocks": "^1.8.3",
+    "jasmine-core": "^6.2.0",
+    "karma": "^6.4.4",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-coverage": "^2.2.1",
+    "karma-jasmine": "^5.1.0",
+    "typescript": "^5.0.0"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

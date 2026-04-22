@@ -1,0 +1,21 @@
+<section class="filters-panel glass">
+    <div class="filter-group">
+        <label for="search">Search Projects</label>
+        <input type="text" id="search" ng-model="$ctrl.filters.keyword" ng-change="$ctrl.onFilterChange()" placeholder="e.g. Stadium, Hub...">
+    </div>
+    <div class="filter-group">
+        <label for="area">Region / Area</label>
+        <select id="area" ng-model="$ctrl.filters.area" ng-change="$ctrl.onFilterChange()">
+            <option value="">All Regions</option>
+            <option value="North London">North London</option>
+            <option value="North West">North West</option>
+            <option value="South West">South West</option>
+            <option value="Midlands">Midlands</option>
+            <option value="Scotland">Scotland</option>
+            <option value="Wales">Wales</option>
+        </select>
+    </div>
+    <div class="filter-actions">
+        <button class="btn btn-secondary" ng-click="$ctrl.onReset()">Reset</button>
+    </div>
+</section>
