@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Glenigan Project Service Frontend",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "npm run build && karma start karma.conf.js"
   },
   "devDependencies": {
     "@types/angular": "^1.8.0",
