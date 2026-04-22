@@ -1,35 +1,39 @@
-# Build stage (optional for dependencies if we want to be super strict, but slim is fine)
-FROM python:3.11-slim
-
-# Prevents Python from writing pyc files to disc
-ENV PYTHONDONTWRITEBYTECODE 1
-# Prevents Python from buffering stdout and stderr
-ENV PYTHONUNBUFFERED 1
+# ==============================
+# Stage 1: Build dependencies
+# ==============================
+FROM python:3.11-alpine AS build-stage
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    python3-dev \
-    && rm -rf /var/lib/apt/lists/*
+# Only install what's needed to compile Python packages
+RUN apk add --no-cache gcc musl-dev python3-dev
 
-# Install Python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install into a custom location so we can copy cleanly
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
-# Copy project files
+# ==============================
+# Stage 2: Production runtime
+# ==============================
+FROM python:3.11-alpine
+
+# Prevents Python from writing pyc files or buffering output
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app
+
+WORKDIR /app
+
+# Copy only the installed packages from the build stage (no compilers)
+COPY --from=build-stage /install /usr/local
+
+# Copy project files (cache-bust: v2 - updated repository schema)
 COPY app/ ./app/
-COPY scripts/ ./scripts/
-# We copy the db only if it exists, or let compose handle it via volume
-COPY glenigan.db . 
+COPY glenigan_takehome_FS.db ./glenigan_takehome_FS.db
 
-# Explicitly set PYTHONPATH
-ENV PYTHONPATH=/app
-
-# Create a non-root user and switch to it
-RUN addgroup --system appgroup && adduser --system appuser --ingroup appgroup
-RUN chown -R appuser:appgroup /app
+# Create a non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup \
+    && chown -R appuser:appgroup /app
 USER appuser
 
 EXPOSE 8000

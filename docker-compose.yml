@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     build:
@@ -8,9 +6,9 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - backend_data:/app/data
+      - ./glenigan_backend/glenigan_takehome_FS.db:/app/glenigan_takehome_FS.db
     environment:
-      - DATABASE_PATH=/app/data/glenigan.db
+      - DATABASE_PATH=/app/glenigan_takehome_FS.db
       - PORT=8000
     restart: unless-stopped
 
@@ -19,12 +17,11 @@ services:
       context: ./glenigan_frontend
       dockerfile: Dockerfile
     ports:
-      - "8080:80"
+      - "8081:80"
     environment:
       - BACKEND_URL=http://localhost:8000
     depends_on:
       - backend
     restart: unless-stopped
 
-volumes:
-  backend_data:
+# Project-wide settings

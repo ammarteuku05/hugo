@@ -25,6 +25,9 @@ python3 app/main.py
 ```
 The API will be available at `http://localhost:8000`.
 
+> [!TIP]
+> Run `python3 scripts/seed_db.py` before starting the service if you need to recreate sample data.
+
 ## Running Tests
 
 The backend uses `pytest` and `pytest-cov` for testing and coverage.
@@ -60,5 +63,5 @@ The backend uses `pytest` and `pytest-cov` for testing and coverage.
 
 2. **Run the Container**:
    ```bash
-   docker run -p 8000:8000 -v glenigan_data:/app/data -e DATABASE_PATH=/app/data/glenigan.db glenigan-backend
+   docker run -p 8000:8000 -v glenigan_data:/app/data -e DATABASE_PATH=/app/data/glenigan_takehome_FS.db glenigan-backend
    ```

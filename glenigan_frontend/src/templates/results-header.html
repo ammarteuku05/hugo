@@ -1,7 +1,9 @@
 <section class="results-info" ng-if="!$ctrl.loading && $ctrl.totalCount !== undefined">
     <div class="limit-selector">
         <label for="perPage">Projects per page:</label>
-        <input type="number" id="perPage" ng-model="$ctrl.perPage" ng-change="$ctrl.onPerPageChange()" min="1" max="1000" class="limit-input">
+        <input type="number" id="perPage" ng-model="$ctrl.perPage"
+               ng-model-options="{ updateOn: 'blur', debounce: { 'default': 700, 'blur': 0 } }"
+               ng-change="$ctrl.onPerPageChange()" min="1" max="1000" class="limit-input">
     </div>
     <p>Showing {{ ($ctrl.currentPage - 1) * $ctrl.perPage + 1 }} - {{ $ctrl.getEndIndex() }} of {{ $ctrl.totalCount }} projects</p>
 </section>

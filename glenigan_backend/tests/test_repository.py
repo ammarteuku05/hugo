@@ -7,7 +7,7 @@ from app.repositories.sqlite_project_repository import SqliteProjectRepository
 def repo():
     # Use a temporary file for testing instead of :memory:
     # because :memory: creates a new DB for every connection.
-    db_path = "test_glenigan.db"
+    db_path = "test_glenigan_takehome_FS.db"
     if os.path.exists(db_path):
         os.remove(db_path)
         

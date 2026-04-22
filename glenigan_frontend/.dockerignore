@@ -1,0 +1,17 @@
+# Exclude the huge node_modules directory from the build context
+# (npm ci installs them fresh inside the build stage)
+node_modules/
+
+# Exclude compiled output (rebuilt inside container)
+dist/
+
+# Exclude test files and coverage reports
+tests/
+
+# Exclude git and IDE files
+.git/
+.gitignore
+
+# Exclude docs and local config
+README.md
+karma.conf.js

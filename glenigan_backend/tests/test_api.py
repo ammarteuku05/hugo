@@ -18,7 +18,7 @@ client = TestClient(app)
 def test_get_projects_success():
     # Setup mock
     mock_service.list_projects.return_value = {
-        "items": [{"project_name": "Test Project", "project_start": "2024", "project_end": "2025", "company": "C", "description": "D", "project_value": 100, "area": "A"}],
+        "items": [{"project_id": "1", "project_name": "Test Project", "project_start": "2024", "project_end": "2025", "company": "C", "description": "D", "project_value": 100, "area": "A"}],
         "total_count": 1
     }
     

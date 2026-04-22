@@ -4,15 +4,16 @@
         <span class="value">£{{ $ctrl.project.project_value | number }}</span>
     </div>
     <div class="card-body">
-        <p class="description">{{ $ctrl.project.description }}</p>
+        <p class="description" ng-if="$ctrl.project.description">{{ $ctrl.project.description }}</p>
+        <p class="description no-desc" ng-if="!$ctrl.project.description">No description available.</p>
         <div class="details">
             <div class="detail-item">
                 <span class="label">Company</span>
-                <span class="value-text">{{ $ctrl.project.company }}</span>
+                <span class="value-text">{{ $ctrl.project.company || 'N/A' }}</span>
             </div>
             <div class="detail-item">
                 <span class="label">Region</span>
-                <span class="value-text">{{ $ctrl.project.area }}</span>
+                <span class="value-text">{{ $ctrl.project.area || 'N/A' }}</span>
             </div>
         </div>
     </div>

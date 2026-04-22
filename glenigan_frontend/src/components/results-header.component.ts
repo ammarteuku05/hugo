@@ -1,6 +1,17 @@
 /**
  * Results Header Component
  */
+class ResultsHeaderController {
+    public totalCount!: number;
+    public currentPage!: number;
+    public perPage!: number;
+    public loading!: boolean;
+
+    public getEndIndex(): number {
+        return Math.min(this.currentPage * this.perPage, this.totalCount);
+    }
+}
+
 const resultsHeader: ng.IComponentOptions = {
     bindings: {
         totalCount: '<',
@@ -10,11 +21,7 @@ const resultsHeader: ng.IComponentOptions = {
         loading: '<'
     },
     templateUrl: 'src/templates/results-header.html',
-    controller: function () {
-        this.getEndIndex = () => {
-            return Math.min(this.currentPage * this.perPage, this.totalCount);
-        };
-    }
+    controller: ResultsHeaderController
 };
 
 angular.module('gleniganApp').component('resultsHeader', resultsHeader);

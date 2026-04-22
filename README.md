@@ -5,7 +5,7 @@
 1. **Prerequisites**: Ensure you have Docker and Docker Compose installed.
 2. **Launch**:
    ```bash
-   docker-compose up --build
+   docker compose up --build
    ```
 3. **Access**:
    - **Frontend**: [http://localhost:8080](http://localhost:8080)

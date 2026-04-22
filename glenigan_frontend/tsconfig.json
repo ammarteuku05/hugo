@@ -4,6 +4,7 @@
     "module": "None",
     "outFile": "dist/app.js",
     "strict": true,
+    "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true

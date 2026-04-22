@@ -1,16 +1,30 @@
+# ==============================
+# Stage 1: Build TypeScript
+# ==============================
+FROM node:18-alpine AS build-stage
+
+WORKDIR /app
+
+COPY package*.json ./
+# Only install dev dependencies needed to compile; they won't go to production
+RUN npm ci --include=dev
+
+COPY tsconfig.json ./
+COPY src/ ./src/
+RUN npm run build
+
+# ==============================
+# Stage 2: Serve with Nginx
+# ==============================
 FROM nginx:alpine
 
-# Copy static files to nginx directory
-COPY . /usr/share/nginx/html/
+# Only copy the essential static files – no node_modules, no source TS
+COPY index.html styles.css /usr/share/nginx/html/
+COPY src/templates/ /usr/share/nginx/html/src/templates/
+COPY --from=build-stage /app/dist/ /usr/share/nginx/html/dist/
 
-# Copy entrypoint script and make it executable
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
-
-# Remove the node_modules and other dev files if they were copied
-RUN rm -rf /usr/share/nginx/html/node_modules \
-    /usr/share/nginx/html/package.json \
-    /usr/share/nginx/html/tsconfig.json
 
 EXPOSE 80
 

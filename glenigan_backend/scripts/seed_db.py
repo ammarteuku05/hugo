@@ -2,7 +2,7 @@ import sqlite3
 import os
 
 def seed():
-    db_path = "glenigan.db"
+    db_path = "glenigan_takehome_FS.db"
     
     # Remove existing db if any
     if os.path.exists(db_path):

@@ -1,0 +1,18 @@
+# Exclude Python cache and test artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+tests/
+
+# Exclude dev/local database files (real one is mounted via volume)
+*.db.tmp
+
+# Exclude git and IDE files
+.git/
+.gitignore
+.env
+
+# Exclude docs
+README.md

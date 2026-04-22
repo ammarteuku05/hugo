@@ -39,8 +39,8 @@ class ProjectController {
     public page: number = 1;
     public perPage: number = 20;
 
-    // Configure your backend API base URL here
-    private API_BASE_URL: string = 'http://0.0.0.0:8000';
+    // Use default backend API base URL if not provided
+    private API_BASE_URL: string = (window as any).API_BASE_URL || 'http://localhost:8000';
 
     static $inject = ['$http', '$timeout'];
 
@@ -55,7 +55,7 @@ class ProjectController {
 
     public loadProjects(): void {
         this.loading = true;
-        
+
         let url = `${this.API_BASE_URL}/projects?page=${this.page}&per_page=${this.perPage}`;
 
         if (this.filters.keyword) {
@@ -82,7 +82,7 @@ class ProjectController {
     private filterTimeout: ng.IPromise<any> | null = null;
     public onFilterChange(): void {
         this.page = 1; // Reset to first page on filter change
-        
+
         if (this.filterTimeout) {
             this.$timeout.cancel(this.filterTimeout);
         }
