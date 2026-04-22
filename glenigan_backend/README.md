@@ -17,10 +17,6 @@ Start the FastAPI server using Uvicorn:
 export PYTHONPATH=$PYTHONPATH:.
 python3 app/main.py
 ```
-The API will be available at `http://localhost:8000`.
-
-> [!TIP]
-> Run `python3 scripts/seed_db.py` before starting the service if you need to recreate sample data.
 
 ## Running Tests
 
