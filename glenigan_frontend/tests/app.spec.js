@@ -10,7 +10,7 @@ describe('Glenigan App', function() {
             $timeout = _$timeout_;
             
             // Mock initial load
-            $httpBackend.expectGET('http://0.0.0.0:8000/projects?page=1&per_page=20')
+            $httpBackend.expectGET('http://localhost:8000/projects?page=1&per_page=20')
                 .respond({ items: [], metadata: { total_count: 0, total_pages: 0 } });
             
             ctrl = $controller('ProjectController');
@@ -37,7 +37,7 @@ describe('Glenigan App', function() {
             expect(ctrl.page).toBe(1);
             
             // Set up expectation before flushing timeout
-            $httpBackend.expectGET('http://0.0.0.0:8000/projects?page=1&per_page=20&keyword=Stadium')
+            $httpBackend.expectGET('http://localhost:8000/projects?page=1&per_page=20&keyword=Stadium')
                 .respond({ items: [], metadata: { total_count: 0 } });
 
             // Fast forward time
@@ -53,7 +53,7 @@ describe('Glenigan App', function() {
             ctrl.resetFilters();
             
             expect(ctrl.filters.keyword).toBe('');
-            $httpBackend.expectGET('http://0.0.0.0:8000/projects?page=1&per_page=20')
+            $httpBackend.expectGET('http://localhost:8000/projects?page=1&per_page=20')
                 .respond({ items: [], metadata: { total_count: 0 } });
             $httpBackend.flush();
         });

@@ -81,3 +81,79 @@ def test_find_projects_no_results(repo):
     result = repo.find_projects(area="NonExistent")
     assert len(result["items"]) == 0
     assert result["total_count"] == 0
+
+
+@pytest.fixture
+def normalized_repo():
+    db_path = "test_glenigan_normalized.db"
+    if os.path.exists(db_path):
+        os.remove(db_path)
+
+    repo = SqliteProjectRepository(db_path)
+    conn = sqlite3.connect(db_path)
+
+    conn.execute(
+        """
+        CREATE TABLE companies (
+            company_id INTEGER PRIMARY KEY,
+            company_name TEXT NOT NULL
+        )
+        """
+    )
+    conn.execute(
+        """
+        CREATE TABLE projects (
+            project_id INTEGER PRIMARY KEY,
+            project_name TEXT NOT NULL,
+            project_start TEXT NOT NULL,
+            project_end TEXT NOT NULL,
+            company_id INTEGER,
+            description TEXT,
+            project_value INTEGER NOT NULL
+        )
+        """
+    )
+    conn.execute(
+        """
+        CREATE TABLE project_area_map (
+            project_id INTEGER NOT NULL,
+            area TEXT NOT NULL
+        )
+        """
+    )
+
+    conn.executemany(
+        "INSERT INTO companies (company_id, company_name) VALUES (?, ?)",
+        [(1, "Company X"), (2, "Company Y")],
+    )
+    conn.executemany(
+        """
+        INSERT INTO projects
+        (project_id, project_name, project_start, project_end, company_id, description, project_value)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """,
+        [
+            (1, "Project A", "2024-01-01", "2024-12-31", 1, "Desc A", 1000),
+            (2, "Project B", "2024-02-01", "2024-11-30", 2, "Desc B", 2000),
+        ],
+    )
+    conn.executemany(
+        "INSERT INTO project_area_map (project_id, area) VALUES (?, ?)",
+        [(1, "London"), (1, "South"), (2, "Manchester")],
+    )
+    conn.commit()
+    conn.close()
+
+    yield repo
+
+    if os.path.exists(db_path):
+        os.remove(db_path)
+
+
+def test_find_projects_normalized_schema(normalized_repo):
+    result = normalized_repo.find_projects(area="London", page=1, per_page=10)
+    assert result["total_count"] == 1
+    assert len(result["items"]) == 1
+    assert result["items"][0]["project_name"] == "Project A"
+    assert result["items"][0]["company"] == "Company X"
+    assert "London" in result["items"][0]["area"]
