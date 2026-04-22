@@ -10,12 +10,6 @@
    pip install -r requirements.txt
    ```
 
-3. **Database Setup**:
-   The service uses an SQLite database. You can seed it with sample data using the provided script:
-   ```bash
-   python3 scripts/seed_db.py
-   ```
-
 ## Running the Service
 
 Start the FastAPI server using Uvicorn:
